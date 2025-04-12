@@ -1,7 +1,7 @@
 use std::error::Error;
 use std::path::PathBuf;
 
-use log::info;
+use log::{info, debug};
 use ndarray::{Array, ArrayD, ArrayView1, Axis, Ix3};
 use ort::execution_providers::{
     CPUExecutionProvider, CUDAExecutionProvider, CoreMLExecutionProvider, TensorRTExecutionProvider,
@@ -232,7 +232,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     for (batch_index, segments) in diarization_results.iter().enumerate() {
         info!("Batch {}: ", batch_index);
         for (segment_id, segment) in segments.iter().enumerate() {
-            info!(
+            debug!(
                 "Speaker ID: {}, Start: {:.2}s, End: {:.2}s, Confidence: {:.2}",
                 segment.id, segment.start, segment.end, segment.confidence
             );
@@ -264,7 +264,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
             writer.finalize()?;
 
-            info!("Saved segment to: {}", output_path);
+            debug!("Saved segment to: {}", output_path);
         }
     }
 
